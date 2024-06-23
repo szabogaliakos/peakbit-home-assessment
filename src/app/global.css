@@ -1,0 +1,13 @@
+/* styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom global styles can go here */
+body {
+  @apply bg-white text-black;
+}
+
+.container {
+  @apply max-w-7xl mx-auto px-4;
+}
