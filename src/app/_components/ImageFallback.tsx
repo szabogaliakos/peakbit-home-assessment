@@ -12,7 +12,7 @@ export default function ImageFallback({ src, fallbackSrc, ...rest }: any) {
     <Image
       {...rest}
       src={imgSrc}
-      onLoad={(result) => {
+      onLoadingComplete={(result) => {
         if (result.naturalWidth === 0) {
           // Broken image
           set_imgSrc(fallbackSrc);
