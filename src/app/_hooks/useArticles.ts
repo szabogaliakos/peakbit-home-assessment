@@ -8,20 +8,26 @@ export function useArticles() {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchArticles = async () => {
       setIsLoading(true);
       try {
         const response = await fetch(`${BASE_URL}/articles/list?page=${page}&pageSize=12`);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch articles");
+        }
+
         const { list, meta } = await response.json();
 
-        if (list && articles.length === 0) {
+        if (list && articles.length <= 0) {
           setArticles(() => list);
         }
 
         if (list && articles.length > 0) {
-          setArticles((prevArticles) => (page === 1 ? list : [...prevArticles, ...list]));
+          setArticles((prevArticles) => [...prevArticles, ...list]);
         }
 
         if (meta && meta.currentPage >= meta.pageCount) {
@@ -30,7 +36,7 @@ export function useArticles() {
         }
       } catch (error) {
         if (error instanceof Error) {
-          throw new Error(error.message);
+          setError(error.message);
         }
       } finally {
         setIsLoading(false);
@@ -46,5 +52,5 @@ export function useArticles() {
     }
   };
 
-  return { articles, isLoading, hasMore, loadMore };
+  return { articles, isLoading, hasMore, loadMore, error };
 }

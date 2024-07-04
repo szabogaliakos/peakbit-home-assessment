@@ -16,7 +16,7 @@ function ArticleList() {
         </div>
       )}
       {isLoading && <LottieLoader style={{ width: "60px", height: "60px" }} />}
-      {!isLoading && hasMore && (
+      {!isLoading && articles.length > 0 && hasMore && (
         <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-16" onClick={loadMore}>
           Továbbiak betöltése
         </button>
